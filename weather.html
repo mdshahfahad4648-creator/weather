@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #87CEEB;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .weather-box {
+            width: 350px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="weather-box">
+        <h2>Weather cheaker</h2>
+
+        <input type="text" id="city"
+               placeholder="Enter City Name">
+
+        <br>
+
+        <button onclick="getWeather()">
+            Check Weather
+        </button>
+
+        <div id="result"></div>
+    </div>
+
+<script>
+
+async function getWeather() {
+
+    let city = document.getElementById("city").value;
+
+    let apiKey = "1c227bc00d9958048305a03bbce4b529";
+
+    let url =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try {
+
+        let response = await fetch(url);
+        let data = await response.json();
+
+        document.getElementById("result").innerHTML =
+        `
+        <h3>${data.name}</h3>
+        <p>Temperature: ${data.main.temp} °C</p>
+        <p>Weather: ${data.weather[0].description}</p>
+        <p>Humidity: ${data.main.humidity}%</p>
+        `;
+
+    } catch(error) {
+
+        document.getElementById("result").innerHTML =
+        "City not found!";
+    }
+}
+
+</script>
+
+</body>
+</html>
